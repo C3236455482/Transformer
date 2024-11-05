@@ -1,0 +1,26 @@
+load_data
+每个batch的max_src_len，max_trg_len不一样
+src_batch：[batch_size, max_src_len]
+trg_batch：[batch_size, max_trg_len]
+
+Encoder
+	Embedding
+		[batch_size, max_src_len, hid_dim]
+	MultiHeadAttentionLayer
+		[batch_size, max_src_len, hid_dim]
+	PositionwiseFeedforwardLayer
+		--[batch_size, max_src_len, pf_dim]--
+		[batch_size, max_src_len, hid_dim]
+	
+trg_batch：[batch_size, max_trg_len, hid_dim]
+Decoder 
+	Embedding
+		[batch_size, max_trg_len, hid_dim]
+	Self-Attention
+		[batch_size, max_trg_len, hid_dim]
+	Encoder-Decoder Attention
+		Query 来自 trg 的 Self-Attention 输出 [batch_size, max_trg_len, hid_dim]
+		Key 和 Value 来自 Encoder 的输出 [batch_size, max_src_len, hid_dim]
+		[batch_size, max_trg_len, hid_dim]
+	Positionwise Feedforward
+		[batch_size, max_trg_len, hid_dim]
